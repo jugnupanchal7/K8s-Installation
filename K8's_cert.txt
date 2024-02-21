@@ -1,0 +1,12 @@
+openssl genrsa -out grv.key 2048
+openssl req -new -key grv.key -out grv.csr
+openssl x509 -req -in ./grv.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key --CAcreateserial -out grv.crt
+
+
+#### To give user access to the cluster :=>
+
+=> Set cluster info in config file :-
+kubectl config set-cluster aws@cluster --server=https://ip:6443 --certificate-authority= path/to/ca.crt --kubeconfig name.kubeconfig
+
+=> set users info in config file :-
+kubectl config set-credentials username --client-certificate=path/to/user.crt --client-key=path/to/user.key --kubeconfig name.kubeconfig
